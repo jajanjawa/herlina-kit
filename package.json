@@ -1,0 +1,35 @@
+{
+  "name": "herlina-kit",
+  "version": "0.1.0",
+  "description": "protocol untuk menghubungkan DApp Vexanium ke dompet Herlina",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jajanjawa/herlina-kit.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cryptocurrency",
+    "web3",
+    "dapp",
+    "walletconnect",
+    "herlina",
+    "web-rtc",
+    "peerjs",
+    "vexanium",
+    "vex",
+    "blockchain"
+  ],
+  "author": "jajanjawa",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@wharfkit/abicache": "^1.2.2",
+    "@wharfkit/antelope": "^1.0.13",
+    "@wharfkit/signing-request": "^3.2.0",
+    "pako": "^2.1.0",
+    "peerjs": "^1.5.4"
+  }
+}
