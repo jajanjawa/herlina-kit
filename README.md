@@ -7,10 +7,6 @@ protocol untuk menghubungkan DApp Vexanium ke Dompet Herlina
 - tanda tangan pesan
 - membuat shared secret untuk enkripsi
 
-## Install
-```shell
-    npm install herlina-kit
-```
 
 ## Init Herlina
 ```javascript
@@ -20,10 +16,19 @@ herlina.on("session", onSession);
 herlina.connect();
 ```
 
+## Membuat Login Request dan Buka wallet 
+```javascript
+    const vsr = herlina.createLoginRequest("DApp Vexanium 101", "url icon aplikasi");
+    const request = vsr.split(":")[1];
+    const walletUrl = `https://herlina.web.app/login?vsr=${request}`;
+    window.open(walletUrl, "Wallet Vexanium");
+    
+```
+
 ## Dapatkan WalletSession
 ```javascript
-async function onSession(session, proof) {
-   const account = proof.signer.toString(); // ini nama akun
+function onSession(session, proof) {
+   const account = proof.signer.toString(); // perlu verifikasi
     session.setABICache(abiCache);  // membaca ABI lebih efisien
     session.onClose(onClose);       // dengarkan jika terputus dengan wallet
     // simpan session
@@ -33,7 +38,7 @@ async function onSession(session, proof) {
 
 ## Membuat Transaksi
 ```javascript
-// kirim VEX dari aiueo ke babibu
+// kirim VEX
 const abi = await abiCache.getAbi("vex.token");
 const data = {from: "aiueo", to: "babibu", quantity: "1.0000 VEX", memo: "percobaan kirim"};
 const action = Action.from({
@@ -41,6 +46,6 @@ const action = Action.from({
     authorization: [Store.session.permissionLevel]
 }, abi);
 const result = await Store.session.transact({action});
-console.log(result.transaction_id); // sudah disiarkan
+console.log(result.transaction_id);
 
 ```

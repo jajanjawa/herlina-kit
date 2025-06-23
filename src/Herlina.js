@@ -16,6 +16,25 @@ export class Herlina {
 
     constructor() {
         this.#appID = `VEX-${window.crypto.randomUUID()}`;
+        this.#peerOptions.config = {
+            iceServers: [
+                {urls: "stun:stun.l.google.com:19302"},
+                {urls: "stun:stun1.l.google.com:3478"},
+                {
+                    urls: "turn:asia.relay.metered.ca:80",
+                    username: "b66cd40a117bddb5cde924ab",
+                    credential: "4jRmuTehVCZ2a/S+"
+                }
+            ]
+        };
+    }
+
+    /**
+     *
+     * @param server
+     */
+    addIceServer(server) {
+        this.#peerOptions.config.iceServers.push(server);
     }
 
     /**
@@ -43,7 +62,7 @@ export class Herlina {
      *
      * @see on
      */
-    connect() {
+    async connect() {
         this.#peer = new Peer(this.#appID, this.#peerOptions);
         this.#peer.on("connection", this.#onConnection.bind(this));
         this.#listeners.forEach((func, key) => {
@@ -102,6 +121,5 @@ export class Herlina {
                 if (func) func(session, proof);
             }
         });
-
     }
 }
