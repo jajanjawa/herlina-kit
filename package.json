@@ -1,6 +1,6 @@
 {
   "name": "herlina-kit",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "protocol untuk menghubungkan DApp Vexanium ke dompet Herlina",
   "repository": {
     "type": "git",

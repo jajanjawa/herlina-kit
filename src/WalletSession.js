@@ -142,15 +142,15 @@ export class WalletSession {
         };
         return new Promise((resolve, reject) => {
             const func = reply => {
-                if (reply.code === 201) {
-                    resolve(reply.params.result);
-                } else if (reply.code === 200) {
-                    resolve(SignedTransaction.from(reply.params.result));
-                } else {
-                    if (typeof reply.params.error === "string") {
-                        reject(new Error(reply.params.error));
+                if (reply.code === 'SENT') {
+                    resolve(reply.result);
+                } else if (reply.code === 'SIGNED') {
+                    resolve(SignedTransaction.from(reply.result));
+                } else { // ERROR | REJECT
+                    if (typeof reply.error === "string") {
+                        reject(new Error(reply.error));
                     } else {
-                        reject(reply.params.error);
+                        reject(reply.error);
                     }
                 }
             };
@@ -171,10 +171,10 @@ export class WalletSession {
         };
         return new Promise((resolve, reject) => {
             const func = reply => {
-                if (reply.code === 201) {
-                    resolve(Signature.from(reply.params.signature));
+                if (reply.code === 'SIGNED') {
+                    resolve(Signature.from(reply.result.signature));
                 } else {
-                    reject(new Error(reply.params.error));
+                    reject(new Error(reply.error.message));
                 }
             };
             this.#callbacks.set(callback, func);
@@ -194,10 +194,10 @@ export class WalletSession {
         };
         return new Promise((resolve, reject) => {
             const func = reply => {
-                if (reply.code === 201) {
-                    resolve(Checksum512.from(reply.params.secret));
-                } else {
-                    reject(new Error(reply.params.error));
+                if (reply.code === 'CREATED') {
+                    resolve(Checksum512.from(reply.result.secret));
+                } else if (reply.code === 'ERROR') {
+                    reject(new Error(reply.error));
                 }
             };
             this.#callbacks.set(callback, func);
